@@ -70,7 +70,7 @@ public class Speed extends Gacha { //Speed Boost powerup follows same logic, all
 	}
 	@override
 	public void PrintBuffs() { 
-		System.out.println("You have recieved" + Buff_name);
+		System.out.println("You have recievied" + Buff_name);
 	}
 }
 
