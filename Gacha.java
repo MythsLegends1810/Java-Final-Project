@@ -37,7 +37,7 @@ public class Shield extends Gacha {  //First power up is shield
 		return this.dmgReduction;
 	}
 	@override //Override structure in Java
-	public void PrintBuffs() { 
+	public void printBuffs() { 
 		System.out.println("You have recieved: " + Buff_name);
 	}
 }
@@ -53,7 +53,7 @@ public class Heal extends Gacha { //Health Regen Powerup follows logic from abov
 		return this.hpRegen;
 	}
 	@override 
-	public void PrintBuffs() { 
+	public void printBuffs() { 
 		System.out.println("You have recieved: " + Buff_name);
 	}
 }
@@ -69,8 +69,26 @@ public class Speed extends Gacha { //Speed Boost powerup follows same logic, all
 		return this.speedBoost;
 	}
 	@override
-	public void PrintBuffs() { 
+	public void printBuffs() { 
 		System.out.println("You have recievied" + Buff_name);
 	}
 }
+
+public class TimeStop extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
+	private int Freeze;
+	public Speed(int stop) {
+		super (20, "Time Stop", "Legendary"); 
+		this.Freeze = stop;
+		this.spawn_rate = (int) Math.ceil(Math.random() * 70); 	
+	}
+	public int getFreeze() { 
+		return this.Freeze;
+	}
+	@override
+	public void printBuffs() { 
+		System.out.println("You have recievied" + Buff_name);
+	}
+}
+
+ 
 
