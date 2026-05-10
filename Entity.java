@@ -35,3 +35,5 @@ public class Entity {
 		return this.isalive;
 	}
 }
+
+
