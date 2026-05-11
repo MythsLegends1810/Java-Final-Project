@@ -95,8 +95,8 @@ class Tank extends Player {
 				System.out.println("Nah I'd Win");
 				return; //Exit out to remove dmg
 			}
+			super.takeDamage(amount);	
 		}
-		super.takeDamage(amount);	
 		@Override 
 		public void draw(Graphics g) { 
 			Graphics g2d = (Graphics2D) g;
@@ -116,8 +116,8 @@ class Tank extends Player {
 				System.out.println("Can't touch this");
 				return; //Ensures the damage is not applied
 			} 
-		}
 		super.takeDamage(amount);	
+		}
 		@Override 
 		public void draw(Graphics g) { 
 			Graphics g2d = (Graphics2D) g;
