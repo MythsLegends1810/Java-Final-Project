@@ -1,17 +1,19 @@
 //we will hbave Players, Projectiles, and lootboxes in here since they will all use x,y positions and draw() for all of them.
+import java.awt.*;
+
 public class Entity { 
 	public double x;
 	public double y;
-	public double x_vel;
-	public double y_vel;
-	public boolean isalive;
+	public double vx;
+	public double vy;
+	public boolean active;
 
 	public Entity(double new_x, double new_y, double new_x_vel, double new_y_vel, boolean new_isalive) { 
 		this.x = new_x;
 		this.y = new_y;
-		this.x_vel = new_x_vel;
-		this.y_vel = new_y_vel;
-		this.isalive = new_isalive;
+		this.vx = new_x_vel;
+		this.vy = new_y_vel;
+		this.active = new_isalive;
 	}
 
 	public double getX() { 
@@ -21,19 +23,36 @@ public class Entity {
 		return this.y;
 	}
 	public double getX_vel() { 
-		return this.x_vel;
+		return this.vx;
 	} 
 	public double getY_vel() { 
-		return this.y_vel;
+		return this.vy;
 	}	
 	public boolean getISalive() { 
-		return this.isalive;
+		return this.active;
 	}
 
 	public boolean setAlive() { 
-		this.isalive = true; //if its false then kill it
-		return this.isalive;
+		this.active = true; //if its false then kill it
+		return this.active;
+	}
+	public void draw(Graphics g) {  
+		Graphics2D g2d = (Graphics2D) g;
 	}
 }
+
+
+/*class Hitbox extends Enttity { 
+	private double radius;
+	
+	public Hitbox(double new_radius) { 
+		this.radius = new_radius;
+	}
+	
+	public void keyPressed(KeyEvent e) { 
+
+	]
+
+}*/
 
 
