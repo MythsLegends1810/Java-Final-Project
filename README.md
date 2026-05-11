@@ -7,9 +7,12 @@ Milestone 1:
 Adam Fayed: 
 - Implemented the chat system so individuals can connect to the server
 - Worked on networking to a client and networking
+- Finished the Chat UI
 
 Jacob Deel:
-- Worked in Game.java; worked on visualization of the project. Worked on keyboard movement for the player
+- Worked in Game.java; worked on visualization of the project.
+- Worked on keyboard movement for the player
+- Working on collisions
 
 Nabil Yousaf:
 - Worked on the Gacha.java class
@@ -20,6 +23,6 @@ Nabil Yousaf:
 Donovan:
 - Worked in Player.java, impelmented code to take damage, apply shield, etc
 - Worked in Projectile.java which contains the attack patterns for the particles
-
+- Worked on mapping out the attacks for our particles
 
 
