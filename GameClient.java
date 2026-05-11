@@ -11,6 +11,8 @@ public class GameClient {
 
 	private int port; //port number
 
+	private PrintWriter serverOutput; //lets other methods send mesages to the server
+
 	public GameClient(String host, int port) {
 		this.host = host;
 		this.port = port;
@@ -27,7 +29,9 @@ public class GameClient {
 			BufferedReader serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reads messages from server...holy crap this is confusing I hate java
 
 
-			PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true); // sends a message to server 
+			//PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true); // sends a message to server 
+			
+			serverOutput = new PrintWriter(socket.getOutputStream(), true);
 
 			BufferedReader keyboardInput = new BufferedReader(new InputStreamReader(System.in)); // reads input from a useer
 			
@@ -69,6 +73,13 @@ public class GameClient {
 
 		
 
+	}
+
+	public void sendMessage(String message) {
+		if(serverOutput != null) {
+			
+			serverOutput.println(message);
+		}
 	}
 
 }

@@ -9,6 +9,8 @@ import java.awt.event.*;
 public class Game extends JPanel implements KeyListener {
 	//using donavon's class
 	Player player1 = new Player(300, 300, 0, 0); 
+	
+	private ChatScreen chatScreen = new ChatScreen();
 
 	public Game() {
 		this.setFocusable(true);
@@ -17,11 +19,32 @@ public class Game extends JPanel implements KeyListener {
 
 	@Override public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		if (chatScreen.isOpen()) {
+			chatScreen.drawChat(g, getWidth(), getHeight());
+			return;
+		}
+
 		g.setColor(Color.BLUE);
-		g.fillRect(p1.x, p1.y, 40, 40);
+		g.fillRect(player1.x, player1.y, 40, 40);
 	}
 
-	public void keyPressed(keyEvent key) {
+	public void keyPressed(KeyEvent key) {
+
+		//adam
+		if (chatScreen.isOpen()) {
+			chatScreen.handleKey(key, null);
+			repaint();
+			return;
+		}
+
+		if (key.getKeyChar() == '/') {
+			chatScreen.open();
+			repaint();
+			return;
+		}
+
+
 		//logic for checking what key was pressed 
 		if (key.getKeyCode() == KeyEvent.VK_W) player1.y -= 10;
 		if (key.getKeyCode() == KeyEvent.VK_S) player1.y += 10;
@@ -30,6 +53,6 @@ public class Game extends JPanel implements KeyListener {
 		repaint(); 
 	}
 
-	public void keyTyped(keyEvent key) {}
-	public void keyReleased(keyEvent key) {}
+	public void keyTyped(KeyEvent key) {}
+	public void keyReleased(KeyEvent key) {}
 }
