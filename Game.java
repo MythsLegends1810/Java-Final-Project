@@ -2,6 +2,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events

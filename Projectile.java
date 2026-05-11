@@ -5,25 +5,29 @@ public class Projectile extends Entity {
 	public double speed;
 	public double rotationSpeed; //This will be how much the bullets turn every frame
 
+	public Projectile() {
+		super(0, 0, 0, 0, false);
+	}
+
 	public void spawn(double x, double y, double angle, duble speed, double rotationSpeed) {
 		this.x = x;
 		this.y = y;
-		this.agnle = angle;
+		this.angle = angle;
 		this.speed = speed;
 		this.rotationSpeed = rotationSpeed; // This needs to be set to 1 or 2 for a curve but test others depedning on the difficulty
-		this.//add the entity alive variable here.
+		this.active = true;
 	}
 
 	public void update() {
-		if (!//add the entity alive variable here) return;
+		if (!active) return;
 		
 		//change the angle slightly  every frame
 		angle += rotationSpeed;
 		
 		//this will be the velocity based on the new angles
-		double rad = //need to add the math for radians here
-		vx = 
-		vy =
+		double rad = Math.toRadians(angle);
+		this.vx = Math.cos(rad) * speed;
+		this.vy = Math.sin(rad) * speed;
 
 		//Move
 		x += vx;
@@ -34,3 +38,12 @@ public class Projectile extends Entity {
 			//entity alive variable here = false
 	}
 }
+
+	@Override
+	public void draw(Graphics g) {
+		if (!active) return;
+		g.setColor(Color.RED);
+		g.fillOval((int)x, (int)y, 10, 10);
+	}
+}
+
