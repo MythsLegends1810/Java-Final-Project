@@ -1,10 +1,18 @@
 import java.io.*;
 import java.net.*;
+import java.awt.*;
 
 
 public class Main {
 
 public static void main(String[] args) {
+
+	JFrame frame = new JFrame("The FourHorsemen: Bullet Hell");
+	Game gamePanel = new Game();
+	frame.add(gamePanel);
+	frame.pack();  //Adjusts window size to fit the panel
+	frame.setVisible(true);
+
 	if (args.length == 0) { // if user doesn't type to server/client
 		
 		//how to run it
@@ -29,6 +37,12 @@ public static void main(String[] args) {
 	else {
 		System.out.println("Invalid option. Use server or client."); //kinda obvious what this does
 	}
-}
 
+	try 
+		{ 
+	Desktop.getDesktop().browse(new java.net.URI("https://www.youtube.com/watch?v=o1YjuTtBEXE&list=RDo1YjuTtBEXE&start_radio=1")); 
+	}
+	catch (Exception ex) {}
+
+	}
 }

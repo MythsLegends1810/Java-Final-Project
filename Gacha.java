@@ -24,13 +24,13 @@ class Gacha { //Parent/Super class
 	}		
 }
 
- class Shield extends Gacha {  //First power up is shield
+class Shield extends Gacha {  //First power up is shield
 	private int dmgReduction; //This is unqiue to the class
 
 	public Shield(int reduction) {  		
 		super(100, "Shield", "Common"); //Thinking of having Shield subtract damage from the multiplier of the particles that do dmg  	
 		this.dmgReduction = reduction;	
-		this.spawn_rate = (int) Math.ceil(Math.random() * 100); //Rand() in Java apparently
+		this.spawn_rate = (int) Math.ceil(Math.random() * 1.0); //Rand() in Java apparently
 	}
 	public int getDmgReduction() { 
 		return this.dmgReduction;
@@ -46,7 +46,7 @@ class Heal extends Gacha { //Health Regen Powerup follows logic from above
 	public Heal(int Regen) {
 		super(70, "Heal", "Rare");
 		this.hpRegen = Regen;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70);
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.7);
 	}	
 	public int getHpRegen() { 
 		return this.hpRegen;
@@ -60,9 +60,9 @@ class Heal extends Gacha { //Health Regen Powerup follows logic from above
 class Speed extends Gacha { //Speed Boost powerup follows same logic, all three inherit from the super class
 	private int speedBoost;
 	public Speed(int boost) {
-		super (70, "Speed Boost", "Rare"); 
+		super(70, "Speed Boost", "Rare"); 
 		this.speedBoost = boost;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70); 	
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.7); 	
 	}
 	public int getSpeedBoost() { 
 		return this.speedBoost;
@@ -76,9 +76,9 @@ class Speed extends Gacha { //Speed Boost powerup follows same logic, all three 
 class TimeStop extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
 	private int Freeze;
 	public TimeStop(int stop) {
-		super (20, "Time Stop", "Legendary"); 
+		super(20, "Time Stop", "Legendary"); 
 		this.Freeze = stop;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70); 	
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.3); 	
 	}
 	public int getFreeze() { 
 		return this.Freeze;
@@ -86,6 +86,43 @@ class TimeStop extends Gacha { //Freeze stops all the particles but the player c
 	@Override
 	public void printBuffs() { 
 		System.out.println("You have recievied" + Buff_name);
+	}
+}
+
+class Overflow extends Gacha { 
+	private int word;
+	public Overflow() { 
+		super(30, "Have fun :)", "common");
+		this.word = 100;
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.7);
+	}
+	public int getWord() { 
+		return word;
+	}
+	@Override 
+	public void printBuffs() { 
+		for (int i = 0; i < word; i++) { 
+			System.out.println("Mwahaha, don't die now. " + Buff_name);
+		}
+	}
+}
+
+class Eepy extends Gacha { 
+	public Eepy() {
+		super(50, "Night night", "Rare");
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.5);
+	}
+	@Override
+	public void printBuffs() { 
+	try { 
+		System.out.println("Siphons of symphony-");
+		Thread.sleep(3000);
+		System.out.println("haunt your dreams");
+	}
+	catch (InterruptedException e) { 
+		Thread.currentThread().interrupt();
+		System.out.println("Dang that wasn't supposed to happen");
+		}
 	}
 }
 
