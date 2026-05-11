@@ -30,7 +30,7 @@ class Gacha { //Parent/Super class
 	public Shield(int reduction) {  		
 		super(100, "Shield", "Common"); //Thinking of having Shield subtract damage from the multiplier of the particles that do dmg  	
 		this.dmgReduction = reduction;	
-		this.spawn_rate = (int) Math.ceil(Math.random() * 100); //Rand() in Java apparently
+		this.spawn_rate = (int) Math.ceil(Math.random() * 1.0); //Rand() in Java apparently
 	}
 	public int getDmgReduction() { 
 		return this.dmgReduction;
@@ -46,7 +46,7 @@ class Heal extends Gacha { //Health Regen Powerup follows logic from above
 	public Heal(int Regen) {
 		super(70, "Heal", "Rare");
 		this.hpRegen = Regen;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70);
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.7);
 	}	
 	public int getHpRegen() { 
 		return this.hpRegen;
@@ -62,7 +62,7 @@ class Speed extends Gacha { //Speed Boost powerup follows same logic, all three 
 	public Speed(int boost) {
 		super (70, "Speed Boost", "Rare"); 
 		this.speedBoost = boost;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70); 	
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.7); 	
 	}
 	public int getSpeedBoost() { 
 		return this.speedBoost;
@@ -78,7 +78,7 @@ class TimeStop extends Gacha { //Freeze stops all the particles but the player c
 	public TimeStop(int stop) {
 		super (20, "Time Stop", "Legendary"); 
 		this.Freeze = stop;
-		this.spawn_rate = (int) Math.ceil(Math.random() * 70); 	
+		this.spawn_rate = (int) Math.ceil(Math.random() * 0.3); 	
 	}
 	public int getFreeze() { 
 		return this.Freeze;
