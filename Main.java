@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.awt.*;
 
 
 public class Main {
@@ -29,6 +30,12 @@ public static void main(String[] args) {
 	else {
 		System.out.println("Invalid option. Use server or client."); //kinda obvious what this does
 	}
-}
 
+	try 
+		{ 
+	Desktop.getDesktop().browse(new java.net.URI("https://www.youtube.com/watch?v=o1YjuTtBEXE&list=RDo1YjuTtBEXE&start_radio=1")); 
+	}
+	catch (Exception ex) {}
+
+	}
 }
