@@ -6,30 +6,42 @@ import java.awt.event.*;
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
 
-public class Game extends JPanel implements KeyListener {
+public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
 	Player player1 = new Player(300, 300, 0, 0); 
 
 	public Game() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
+		Timer timer = new Timer(15, this);
+		timer.start();
 	}
 
 	@Override public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.BLUE);
-		g.fillRect(p1.x, p1.y, 40, 40);
+		g.fillRect(player1.x, player1.y, 40, 40);
 	}
 
 	public void keyPressed(keyEvent key) {
 		//logic for checking what key was pressed 
-		if (key.getKeyCode() == KeyEvent.VK_W) player1.y -= 10;
-		if (key.getKeyCode() == KeyEvent.VK_S) player1.y += 10;
-		if (key.getKeyCode() == KeyEvent.VK_A) player1.x -= 10;
-		if (key.getKeyCode() == KeyEvent.VK_D) player1.x += 10;
+		if (key.getKeyCode() == KeyEvent.VK_W) player1.vel_y -= 5;
+		if (key.getKeyCode() == KeyEvent.VK_S) player1.vel_y += 5;
+		if (key.getKeyCode() == KeyEvent.VK_A) player1.vel_x -= 5;
+		if (key.getKeyCode() == KeyEvent.VK_D) player1.vel_x += 5;
 		repaint(); 
 	}
 
 	public void keyTyped(keyEvent key) {}
-	public void keyReleased(keyEvent key) {}
+
+	public void keyReleased(keyEvent key) {
+		if (key.getKeyCode() == KeyEvent.VK_D || key.getKeyCode() == KeyEvent.VK_A) player1.x_vel = 0;
+		if (key.getKeyCode() == KeyEvent.VK_W || key.getKeyCode() == KeyEvent.VK_S) player1.y_vl = 0;
+	}
+
+	public void actionPerformed(ActionEvent key) {
+		player1.x += player1.x_vel;     // Math for New Position = Old Position + Speed
+		player1.y += player1.y_vel;
+		repaint();
+	}
 }

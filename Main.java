@@ -6,6 +6,13 @@ import java.awt.*;
 public class Main {
 
 public static void main(String[] args) {
+
+	JFrame frame = new JFrame("The FourHorsemen: Bullet Hell");
+	Game gamePanel = new Game();
+	frame.add(gamePanel);
+	frame.pack();  //Adjusts window size to fit the panel
+	frame.setVisible(true);
+
 	if (args.length == 0) { // if user doesn't type to server/client
 		
 		//how to run it
