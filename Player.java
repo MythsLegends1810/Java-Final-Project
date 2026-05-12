@@ -8,6 +8,7 @@ public class Player extends Entity {
 	public int maxHp;
 	public int shield;
 	public double movementSpeed;
+	public boolean Hakari = false;
 
 
 	public Player(double x, double y, int hp, double speed) {
@@ -26,6 +27,35 @@ public class Player extends Entity {
 		// Update postion based on velocity
 		this.x += vx;
 		this.y += vy;
+	}
+
+	public void ShieldBuff() { 	
+		this.shield += 69;
+	}
+
+	public void HealthBuff() { 
+		this.hp += 42;
+		if (this.hp > this.maxHp && !this.Hakari) { 
+			this.hp = maxHp;
+		}
+	}
+
+	public void SpeedBuff() { 
+		this.movementSpeed += 3.0;
+	}
+
+	public void JackpotBuff() { //Find a time class to work with. rn is eepy time 
+		this.Hakari = true;
+		for (int i = 0; i < 4; i++) { 
+			this.shield *= 2;
+			this.hp *= 2;
+			this.movementSpeed *= 2.0;
+		}
+		this.shield /= 8;
+		this.hp /= 8;
+		this.movementSpeed /= 8;
+	
+
 	}
 
 	public void takeDamage(int amount) {
@@ -70,6 +100,7 @@ class Tank extends Player {
 	public Tank(double x_pos, double y_pos) { //Same logic for assasin public class TM_FILENAME_BAS {
 		super(x_pos, y_pos, 200, 5.0);
 		this.shield = 100;
+		this.maxHp = 200;
 		/*this.hp = 200;
 		  this.maxHP = 200;
 		  this.movementSpeed = 5.0*/;
@@ -85,6 +116,7 @@ class Tank extends Player {
 		public Gojo(double x_pos, double y_pos) { 
 			super(x_pos, y_pos, 120, 10.0);
 			this.shield = 10000;
+			this.maxHp = 120;
 			/*	this.hp = 120;
 				this.maxHP = 120;
 				this.movementSpeed = 10.0;*/
