@@ -6,6 +6,7 @@ public class Entity {
 	public double y;
 	public double vx;
 	public double vy;
+	public int width, height;
 	public boolean active;
 
 	public Entity(double new_x, double new_y, double new_x_vel, double new_y_vel, boolean new_isalive) { 
@@ -13,7 +14,18 @@ public class Entity {
 		this.y = new_y;
 		this.vx = new_x_vel;
 		this.vy = new_y_vel;
+		this.width = width;
+		this.height = height;
 		this.active = new_isalive;
+	}
+
+	//This is the 'box' that we talked about in class 5/11/2026 for AABB
+	public Rectangle getBounds() {
+		return new Rectangle((int)x, (int)y, width, height);
+	}
+	
+	public boolean collidesWith(Entity other) {
+		return this.getBounds().intersects(other.getBounds());
 	}
 
 	public double getX() { 

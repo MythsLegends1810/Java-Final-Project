@@ -37,7 +37,7 @@ public class Projectile extends Entity {
 
 		//out of bounds check
 		if (x < -50 || x > 850 || y < -50 || y > 650) {
-			this.active = false;
+			this.active = false
 	}
 }
 
