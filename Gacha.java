@@ -73,11 +73,11 @@ class Speed extends Gacha { //Speed Boost powerup follows same logic, all three 
 	}
 }
 
-class TimeStop extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
-	private int Freeze;
-	public TimeStop(int stop) {
+class Jackpot extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
+	private int Glorious;
+	public Jackpot(int Godlike) {
 		super(20, "Time Stop", "Legendary"); 
-		this.Freeze = stop;
+		this.Glorius = GOdline;
 		this.spawn_rate = (int) Math.ceil(Math.random() * 0.3); 	
 	}
 	public int getFreeze() { 
