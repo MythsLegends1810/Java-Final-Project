@@ -1,5 +1,7 @@
 //Extension of Entity.java will contain the math and patterns for the attacks (example sin waves and stuff like that similar to Terrarias calamity fights
 //Think like Empress of light attacks etc
+import java.awt.*;
+
 public class Projectile extends Entity {
 	public double angle;
 	public double speed;
@@ -9,7 +11,7 @@ public class Projectile extends Entity {
 		super(0, 0, 0, 0, false);
 	}
 
-	public void spawn(double x, double y, double angle, duble speed, double rotationSpeed) {
+	public void spawn(double x, double y, double angle, double speed, double rotationSpeed) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
@@ -30,8 +32,8 @@ public class Projectile extends Entity {
 		this.vy = Math.sin(rad) * speed;
 
 		//Move
-		x += vx;
-		y += vy;
+		this.x += this.vx;
+		this.y += this.vy;
 
 		//out of bounds check
 		if (x < -50 || x > 850 || y < -50 || y > 650) {

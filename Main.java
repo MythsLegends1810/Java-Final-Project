@@ -1,18 +1,14 @@
 import java.io.*;
 import java.net.*;
 import java.awt.*;
+import javax.swing.*;
+import java.awt.*;
 
 
 public class Main {
 
 public static void main(String[] args) {
-
-	JFrame frame = new JFrame("The FourHorsemen: Bullet Hell");
-	Game gamePanel = new Game();
-	frame.add(gamePanel);
-	frame.pack();  //Adjusts window size to fit the panel
-	frame.setVisible(true);
-
+	
 	if (args.length == 0) { // if user doesn't type to server/client
 		
 		//how to run it
@@ -31,6 +27,18 @@ public static void main(String[] args) {
 
 	else if (args[0].equalsIgnoreCase("client")) { //if they typed client
 		GameClient client = new GameClient("localhost", 5000); //create a game client w/ localhost, same port as GameServer
+		
+		// Setting up the window using invokeLater to keep it on a separate thread
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JFrame frame = new JFrame("The FourHorsemen: Bullet Hell");
+				Game gamePanel = new Game();
+				frame.add(gamePanel);
+				frame.pack();  //Adjusts window size to fit the panel
+				frame.setVisible(true);
+			}
+		});
+
 		client.start(); //start tje client
 	}
 
