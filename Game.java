@@ -13,6 +13,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	
 	private ChatScreen chatScreen = new ChatScreen();
 
+	private BulletSpawner spawner = new BulletSpawner();
+	
+	private int spawnTimer = 0;
+
 	public Game() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -67,5 +71,19 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		player1.x += player1.x_vel;     // Math for New Position = Old Position + Speed
 		player1.y += player1.y_vel;
 		repaint();
+
+		//This is the code for the random spawn of bullets starts here:
+		spawnTimer++;
+		if (spawnTimer >= 60) {
+			double chance = Math.random();
+			
+			if (chance < 0.3) {
+				spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords
+			} 
+			else if (chance < 0.6) {
+				spawner.spawnRing(player1.x, player1.y, bullets);
+			}
+			spawnTimer = 0;
+		} //This is the end of the logic for bullets there will be more else if statements for other patterns
 	}
 }
