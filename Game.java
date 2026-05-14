@@ -104,5 +104,21 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
+		
+		//collision loop below:
+		for (int i = bullets.size() - 1; i >= 0; i--) {
+			Projectile p = bullets.get(i);
+			p.update();
+
+			//This is the player collision
+			if (p.active && player1.active && p.collidesWith(player1)) {
+				player1.takeDamage(10); // player takes 10 damage change depending on what we need to balance.
+				p.active = false;
+			}
+			if (!p.active) {
+				bullets.remove(i);
+			}
+		}
+		repaint();
 	}
 }
