@@ -22,6 +22,9 @@ class Gacha { //Parent/Super class
 	public void printBuffs() {                    //Pritns out the buff the user acquires when they pick it up
 		System.out.println("You have recieved: " + Buff_name);
 	}		
+	public void transfer(Player buff) { //Java giving me a migraine I pray this works 
+		//logic lol
+	}
 }
 
 class Shield extends Gacha {  //First power up is shield
@@ -39,6 +42,11 @@ class Shield extends Gacha {  //First power up is shield
 	public void printBuffs() { 
 		System.out.println("You have recieved: " + Buff_name);
 	}
+	@Override 
+	public void transfer(Player buff) { 
+		int shield = 69;
+		buff.ShieldBuff(shield);	
+	}
 }
 
 class Heal extends Gacha { //Health Regen Powerup follows logic from above
@@ -55,6 +63,11 @@ class Heal extends Gacha { //Health Regen Powerup follows logic from above
 	public void printBuffs() { 
 		System.out.println("You have recieved: " + Buff_name);
 	}
+	@Override 
+	public void transfer(Player buff) { 
+		int heals = 42;
+		buff.HealthBuff(heals);
+	}
 }
 
 class Speed extends Gacha { //Speed Boost powerup follows same logic, all three inherit from the super class
@@ -70,6 +83,10 @@ class Speed extends Gacha { //Speed Boost powerup follows same logic, all three 
 	@Override
 	public void printBuffs() { 
 		System.out.println("You have recievied" + Buff_name);
+	} 
+	public void transfer(Player buff) { 
+		double speed = 3.0;
+		buff.SpeedBuff(speed);
 	}
 }
 
@@ -77,11 +94,11 @@ class Jackpot extends Gacha { //Freeze stops all the particles but the player ca
 	private int Glorious;
 	public Jackpot(int Godlike) {
 		super(20, "Time Stop", "Legendary"); 
-		this.Glorius = GOdline;
+		this.Glorious = Godlike;
 		this.spawn_rate = (int) Math.ceil(Math.random() * 0.3); 	
 	}
 	public int getFreeze() { 
-		return this.Freeze;
+		return this.Glorious;
 	}
 	@Override
 	public void printBuffs() { 
