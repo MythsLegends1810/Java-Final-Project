@@ -1,4 +1,6 @@
 //This will be extension from Entity.java and will contain player methods like move() on keyboard inputs
+import java.time.*;
+import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -29,32 +31,26 @@ public class Player extends Entity {
 		this.y += vy;
 	}
 
-	public void ShieldBuff() { 	
-		this.shield += 69;
+	public void ShieldBuff(int armor) { 	
+		this.shield += armor;
 	}
 
-	public void HealthBuff() { 
-		this.hp += 42;
+	public void HealthBuff(int heals) { 
+		this.hp += heals;
 		if (this.hp > this.maxHp && !this.Hakari) { 
 			this.hp = maxHp;
 		}
 	}
 
-	public void SpeedBuff() { 
-		this.movementSpeed += 3.0;
+	public void SpeedBuff(double boost) { 
+		this.movementSpeed += boost;
 	}
 
 	public void JackpotBuff() { //Find a time class to work with. rn is eepy time 
 		this.Hakari = true;
-		for (int i = 0; i < 4; i++) { 
-			this.shield *= 2;
-			this.hp *= 2;
-			this.movementSpeed *= 2.0;
-		}
-		this.shield /= 8;
-		this.hp /= 8;
-		this.movementSpeed /= 8;
-	
+		System.out.println("Guess you lucked out. For now...");
+		//logic to kill the bullets here
+		
 
 	}
 
