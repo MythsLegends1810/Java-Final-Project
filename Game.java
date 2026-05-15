@@ -52,6 +52,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Draws a dark background 
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
+
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).draw(g);
+		}
 		// Draws the player
 		g2d.setColor(Color.CYAN);
 		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);

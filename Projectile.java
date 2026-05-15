@@ -12,7 +12,7 @@ public class Projectile extends Entity {
 	public double rotationSpeed; //This will be how much the bullets turn every frame
 
 	public Projectile() {
-		super(0, 0, 0, 0, false);
+		super(0, 0, 10, 10, false);
 	}
 
 	public void spawn(double x, double y, double angle, double speed, double rotationSpeed) {
@@ -55,11 +55,11 @@ public class Projectile extends Entity {
 		g2d.setColor(Color.RED);
 
 		//Draw the bullet center
-		g2d.fill0val((int)x - width/2, (int)y - height/2, width, height);
+		g2d.fillOval((int)x - width/2, (int)y - height/2, width, height);
 
 		//outline of the dot
 		g2d.setColor(Color.WHITE);
-		g2d.draw0val((int)x - width/2, (int)y - height/2, width, height);
+		g2d.drawOval((int)x - width/2, (int)y - height/2, width, height);
 	}
 }
 
