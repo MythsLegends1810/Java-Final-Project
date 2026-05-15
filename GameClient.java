@@ -70,7 +70,7 @@ public class GameClient {
 
 								double y = Double.parseDouble(parts[3]); // Convert y from String to double
 
-								game.updateOtherPlayer(otherPlayerName, x, y); // Update that player on the screen
+								//game.updateOtherPlayer(otherPlayerName, x, y); // Update that player on the screen        ADAM FIX THIS
 							}
 						}
 

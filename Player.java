@@ -76,29 +76,56 @@ public class Player extends Entity {
 	}	
 	@Override
 	public void draw(Graphics g) { // need the graphics stuff here I dont know what we use 
-		Graphics g2d = (Graphics2D) g;		
+		//Graphics g2d = (Graphics2D) g;		
+		//Drawing the health bar background (red - missing health)
+		g.setColor(Color.RED);
+		g.fillRect((int)x, (int)y - 15, width, 5);
+
+		// Drawing the current health (green)
+		g.setColor(Color.GREEN);
+		//calculate width of the green bar based on health percentage
+		int healthWidth = (int) ((double) hp / maxHp * width);
+		g.fillRect((int)x, (int)y - 15, healthWidth, 5);
+
+		// Draw shield Bar if they have on (Blue)
+		if (shield > 0) {
+			g.setColor(Color.CYAN);
+			//makes shield bar slightly thinner right below/above
+			int shieldWidth = (int) (Math.min(1.0, (double) shield / maxHp) * width);
+			g.fillRect((int)x, (int)y - 20, shieldWidth, 3);
+		}
+
+		//Drawing a thin black border around the bars so they pop
+		g.setColor(Color.BLACK);
+		g.drawRect((int)x, (int)y - 15, width, 6);
 	}
 }
 
 class Assassin extends Player { //Faster walkspeed but lower hp
+	private Image sprite; //stores the image here
 	public Assassin(double x_pos, double y_pos) { //Position here cause idk if we are going to have a fixed spawn point, can be removed later; just take out x_pos and y_pos  
 		super(x_pos, y_pos, 70, 12.6);
 		/*this.hp = 70;
 		  this.movementSpeed = 12.6;
 		  this.maxHp = 70;*/
+		// it then loads the image ONCE when the player is created
+		this.sprite = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");
 	}
 	@Override
 	public void draw(Graphics g) { 
 		super.draw(g);
 		Graphics2D g2d = (Graphics2D) g;
-		Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");	//Imma try to use an actual jpg here this gunna take some time
-		g2d.scale(0.9,0.9);
-		g2d.drawImage(img1, 100, 100, 100, 100, null);
+		//commenting out these below because this would interfere with the draw method. Also, the scale function would cause everything drawn after the player
+		//to be caled down like 90% and shift to top-left
+		//Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");	//Imma try to use an actual jpg here this gunna take some time
+		//g2d.scale(0.9,0.9);
+		g2d.drawImage(sprite, (int)x, (int)y, 35, 35, null);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 }
 
 class Tank extends Player { 
+	private Image sprite1;
 	public Tank(double x_pos, double y_pos) { //Same logic for assasin public class TM_FILENAME_BAS {
 		super(x_pos, y_pos, 200, 5.0);
 		this.shield = 100;
@@ -106,21 +133,22 @@ class Tank extends Player {
 		/*this.hp = 200;
 		  this.maxHP = 200;
 		  this.movementSpeed = 5.0*/;
+		this.sprite1 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
 	}
 	@Override
 	public void draw(Graphics g) { 
 		super.draw(g);
 		Graphics2D g2d = (Graphics2D) g; //Need to work on this later, if all fails just draw a square prob
-		Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
-		
-		g2d.scale(0.9,0.9);
-		g2d.drawImage(img2, 100, 100, 100, 100, null);
+		//Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
+		//g2d.scale(0.9,0.9);
+		g2d.drawImage(sprite1, (int)x, (int)y, 35, 35, null);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//Same thing needs an image to be applied
 	}
 }
 
 	class Gojo extends Player { 
+		private Image sprite2;
 		public Gojo(double x_pos, double y_pos) { 
 			super(x_pos, y_pos, 120, 10.0);
 			this.shield = 10000;
@@ -128,6 +156,7 @@ class Tank extends Player {
 			/*	this.hp = 120;
 				this.maxHP = 120;
 				this.movementSpeed = 10.0;*/
+			this.sprite2 = Toolkit.getDefaultToolkit().getImage("Satoru.png");
 		}
 		@Override
 		public void takeDamage(int amount) { 
@@ -139,23 +168,23 @@ class Tank extends Player {
 		}
 		@Override 
 		public void draw(Graphics g) { 
-		super.draw(g);
+			super.draw(g);
 			Graphics2D g2d = (Graphics2D) g;
-			Image img3 = Toolkit.getDefaultToolkit().getImage("Satoru.png");
-			
-			g2d.scale(0.9,0.9);
-			g2d.drawImage(img3, 100, 100, 100, 100, null);
+			//Image img3 = Toolkit.getDefaultToolkit().getImage("Satoru.png");
+			//g2d.scale(0.9,0.9);
+			g2d.drawImage(sprite2, (int)x, (int)y, 35, 35, null);
 	    	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
 			//Needs the image and the logc to print it to the screen
 		}
 
 	}
 
 	class Gambler extends Player { 
+		private Image sprite3;
 		public Gambler(double x_pos, double y_pos) { 
 			super(x_pos, y_pos, 120, 10.0);
 			this.shield = 30;
+			this.sprite3 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
 		}
 		@Override 
 		public void takeDamage(int amount) { 
@@ -169,15 +198,10 @@ class Tank extends Player {
 		public void draw(Graphics g) { 
 			super.draw(g);
 			Graphics2D g2d = (Graphics2D) g;
-			Image img4 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
-
-			g2d.scale(0.9,0.9);
-            g2d.drawImage(img4, 100, 100, 100, 100, null);
+			//Image img4 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
+			//g2d.scale(0.9,0.9);
+            g2d.drawImage(sprite3, (int)x, (int)y, 35, 35, null);
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			//Needs the image and the logc to print it to the screen
 		}
 	}
-
-
-
-

@@ -25,7 +25,8 @@ public class Entity {
 	}
 	
 	public boolean collidesWith(Entity other) {
-		return this.getBounds().intersects(other.getBounds());
+		//return this.getBounds().intersects(other.getBounds());
+		return x < other.x + other.width && x + width > other.x && y < other.y + other.height && y + height > other.y;
 	}
 
 	public double getX() { 
