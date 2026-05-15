@@ -5,21 +5,20 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
+import java.util.List;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
 
 public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
-	Player player1 = new Player(300, 300, 0, 0); 
+	private Player player1 = new Player(300, 300, 0, 0); 
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
 
-	//private BulletSpawner spawner = new BulletSpawner(); commented out temporarily
-	
-
-
+	private BulletSpawns spawner = new BulletSpawns();
+	private ArrayList<Projectile> bullets = new ArrayList<>();
 
 	private int spawnTimer = 0;
 	private int freezeTimer = 0;
@@ -73,7 +72,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			return;
 		}
 
-
 		//logic for checking what key was pressed 
 		if (key.getKeyCode() == KeyEvent.VK_W) player1.vy -= 5;
 		if (key.getKeyCode() == KeyEvent.VK_S) player1.vy += 5;
@@ -125,10 +123,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			spawnY = Math.max(50, Math.min(550, spawnY));
 
 			if (chance < 0.3) {
-			//	spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
+				spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
 			} 
 			else if (chance < 0.6) {
-			//	spawner.spawnRing(player1.x, player1.y, bullets); //TEMP COMMENTED
+				spawner.spawnRing(player1.x, player1.y, bullets); //TEMP COMMENTED
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
