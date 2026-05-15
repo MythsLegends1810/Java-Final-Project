@@ -73,29 +73,6 @@ public class GameClient {
 
 			//String userMessage; //capital S galore
 			
-			/*
-			while ((userMessage = keyboardInput.readLine()) != null) { //infinite send loop
-				
-				serverOutput.println(userMessage);
-			} // send typed message to server ^^
-			*/
-				/*
-			System.out.println();
-			System.out.println("GAME MODE");
-			System.out.println("Type / and press ENTER to open chat.");
-
-			String userInput;
-
-			while((userInput = keyboardInput.readLine()) != null) {
-				if (userInput.equals("/")) {
-					openChatMode(keyboardInput);
-				}
-				else {
-					System.out.println("You are in GAME MODE. TYPE \"/\" to open Chat.");
-				}
-			}
-
-		}*/
 	}
 		catch (IOException e) {
 			
@@ -108,39 +85,6 @@ public class GameClient {
 		
 
 	}
-	/*
-	private void openChatMode(BufferedReader keyboardInput) throws IOException {
-    clearScreen();
-
-    System.out.println("====================================");
-    System.out.println("              CHAT MODE             ");
-    System.out.println("====================================");
-    System.out.println("Type your message and press ENTER.");
-    System.out.println("Type /back to return to game mode.");
-    System.out.println();
-
-    String message;
-
-    while ((message = keyboardInput.readLine()) != null) {
-
-        if (message.equals("/back")) {
-            clearScreen();
-            System.out.println("GAME MODE");
-            System.out.println("Type / and press ENTER to open chat.");
-            return;
-        }
-
-        if (!message.trim().equals("")) {
-            sendMessage(message);
-        }
-    }
-}
-
-
-
-
-
-*/
 
 	public void setChatScreen(ChatScreen chatScreen) {
 		this.chatScreen = chatScreen;

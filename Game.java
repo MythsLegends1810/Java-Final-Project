@@ -16,7 +16,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
 
-	//private BulletSpawner spawner = new BulletSpawner(); commented out temporarily
+	private BulletSpawner spawner = new BulletSpawner();  
 	
 
 
