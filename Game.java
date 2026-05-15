@@ -5,8 +5,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
-//import java.util.List;
-import java.util.*;
+import java.util.List;
+import java.util.HashMap;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
@@ -17,6 +17,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
+
+	private HashMap<String, double[]> otherPlayers = new HashMap<>();
+
 
 	private BulletSpawns spawner = new BulletSpawns();
 	private ArrayList<Projectile> bullets = new ArrayList<>();
@@ -30,6 +33,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public Game(GameClient client) {
 		this.client = client;
 		this.client.setChatScreen(chatScreen);
+
+		this.client.setGame(this);
 
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.GREEN);
@@ -123,6 +128,20 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	
 
 
+		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
+
+		g2d.setColor(Color.ORANGE);
+
+		for (String name : otherPlayers.keySet()) {
+			double[] position = otherPlayers.get(name);
+
+			int x = (int) position[0];
+			int y = (int) position[1];
+
+			g2d.fillRect(x, y, 40, 40);
+			g2d.drawString(name, x, y - 5);
+		}
+	}
 
 	public void keyPressed(KeyEvent key) {
 
@@ -166,6 +185,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
 		player1.y += player1.vy;
+			
+		if (client != null) { // Make sure the client exists before trying to send position
+
+		client.sendPosition(player1.x, player1.y); // Send this player's current position to the server
+}
+
 
 		// Keep player on screen within the boundaries
 		if (player1.x < 0) player1.x = 0;
@@ -201,7 +226,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		//collision loop below:
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
-			p.update();
+			p.update(isTimeStopped);
 
 			//This is the player collision
 			if (p.active && player1.active && p.collidesWith(player1)) {
@@ -218,5 +243,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
 		this.freezeTimer = 333;
+	}
+
+
+
+	public void updateOtherPlayer(String playerName, double x, double y) {
+		otherPlayers.put(playerName, new double[] {x, y});
+		repaint();
 	}
 }
