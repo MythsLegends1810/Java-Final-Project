@@ -1,4 +1,4 @@
-//This is where we will have the run() loop, update() for physics and paint() for drawing
+//This s where we will have the run() loop, update() for physics and paint() for drawing
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -14,12 +14,17 @@ import java.util.HashMap;
 public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
 	private Player player1 = new Player(100 + Math.random() * 200, 100 + Math.random() * 400, 0, 0); 
+
+	private Gacha loot;
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
 
 	private BulletSpawns spawner = new BulletSpawns();
 	private ArrayList<Projectile> bullets = new ArrayList<>();
+
+	private ArrayList<Gacha> lootboxes = new ArrayList<>();
+	private int lootboxSpawnTimer = 0;
 
 	private int spawnTimer = 0;
 	private int freezeTimer = 0;
@@ -106,6 +111,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Draw all active bullets 
 		for (Projectile p : bullets) {
 			p.draw(g);
+		}
+
+		for (Gacha lootbox : lootboxes) {
+			lootbox.draw(g, (int)lootbox.x, (int)lootbox.y);
 		}
 
 		g2d.setColor(Color.ORANGE);
@@ -203,7 +212,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
-		
+			
+		// loot box spawning 
+		lootboxSpawnTimer++;
+		if (lootboxSpawnTimer >= 360) {
+			spawnRandomLootbox();
+			lootboxSpawnTimer = 0;
+		}
+
+
 		//collision loop below:
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
@@ -224,7 +241,28 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		}
 
 		repaint();
+
+		for (int i = lootboxes.size() - 1; i >= 0; i--) {
+		
+			Gacha lootbox = lootboxes.get(i);
+
+			if (lootbox.active && player1.active && lootbox.collidesWith(player1)) {
+				lootbox.transfer(player1);
+				lootbox.printBuffs();
+				lootboxes.remove(i);
+			}
+}
+
+
 	}
+	public void spawnLootbox() { 
+	int dropRate = (int) (Math.random() * 100) + 1;
+	
+	if (dropRate >= 80) { 
+		 
+		}	 
+	}
+
 
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
@@ -235,4 +273,38 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		otherPlayers.put(playerName, new double[]{x, y});
 		repaint();
 	}
+
+	private void spawnRandomLootbox() {
+    double x = 50 + Math.random() * 700;
+    double y = 50 + Math.random() * 500;
+
+    Gacha lootbox;
+
+    int roll = (int)(Math.random() * 100);
+
+    if (roll < 40) {
+        lootbox = new Shield(69);
+    }
+    else if (roll < 70) {
+        lootbox = new Heal(42);
+    }
+    else if (roll < 90) {
+        lootbox = new Speed(3);
+    }
+    else {
+        lootbox = new Overflow();
+    }
+
+    lootbox.x = x;
+    lootbox.y = y;
+    lootbox.width = 35;
+    lootbox.height = 35;
+    lootbox.active = true;
+
+    lootboxes.add(lootbox);
+    System.out.println("Lootbox spawned at " + x + ", " + y);
+
+}
+
+
 }
