@@ -18,12 +18,17 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 	//private BulletSpawner spawner = new BulletSpawner(); commented out temporarily
 	
+
+
+
 	private int spawnTimer = 0;
+	private int freezeTimer = 0;
+	private boolean isTimeStopped = false;
+
 
 	public Game(GameClient client) {
 		this.client = client;
 		this.client.setChatScreen(chatScreen);
-
 
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.GREEN);
@@ -85,6 +90,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	}
 
 	@Override public void actionPerformed(ActionEvent key) {
+		//Freeze the time for bullets logic
+		if (isTimeStopped) {
+			freezeTimer--;
+			if(freezeTimer <= 0) {
+				isTimeStopped = false;
+			}
+		}
+
+
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
 		player1.y += player1.vy;
 
@@ -101,7 +115,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		spawnTimer++;
 		if (spawnTimer >= 60) {
 			double chance = Math.random();
+
+			//This is the math for spawning the bullets near the player but not ontop of them
+			double spawnY = player1.x + (Math.random() * 400 - 200);
+			double spawnX = player1.y + (Math.random() * 400 - 200);
 			
+			//boundaries for the bullets to spawn on the players scree.
+			spawnX = Math.max(50, Math.min(750, spawnX));
+			spawnY = Math.max(50, Math.min(550, spawnY));
+
 			if (chance < 0.3) {
 			//	spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
 			} 
@@ -110,5 +132,26 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
+		
+		//collision loop below:
+		for (int i = bullets.size() - 1; i >= 0; i--) {
+			Projectile p = bullets.get(i);
+			p.update();
+
+			//This is the player collision
+			if (p.active && player1.active && p.collidesWith(player1)) {
+				player1.takeDamage(10); // player takes 10 damage change depending on what we need to balance.
+				p.active = false;
+			}
+			if (!p.active) {
+				bullets.remove(i);
+			}
+		}
+		repaint();
+	}
+
+	public void FreezeBullets() {
+		this.isTimeStopped = true;
+		this.freezeTimer = 333;
 	}
 }

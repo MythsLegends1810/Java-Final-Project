@@ -10,9 +10,9 @@ Adam Fayed:
 - Finished the Chat UI
 
 Jacob Deel:
-- Worked in Game.java; worked on visualization of the project.
-- Worked on keyboard movement for the player
-- Working on collisions
+- Worked in Game.java; worked on visualization of the project using rendering.
+- Worked on keyboard movement for the player, which involved actionPerformed
+- System Integration & Troubleshooting
 
 Nabil Yousaf:
 - Worked on the Gacha.java class
