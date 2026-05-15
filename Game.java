@@ -19,6 +19,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	
 	private int spawnTimer = 0;
 
+	private int freezeTimer = 0;
+	private boolean isTimeStopped = false;
+
 	public Game() {
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.BLACK);
@@ -79,6 +82,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	}
 
 	@Override public void actionPerformed(ActionEvent key) {
+		//Freeze the time for bullets logic
+		if (isTimeStopped) {
+			freezeTimer--;
+			if(freezeTimer <= 0) {
+				isTimeStopped = false;
+			}
+		}
+
+
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
 		player1.y += player1.vy;
 
@@ -95,7 +107,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		spawnTimer++;
 		if (spawnTimer >= 60) {
 			double chance = Math.random();
+
+			//This is the math for spawning the bullets near the player but not ontop of them
+			double spawnY = player1.x + (Math.random() * 400 - 200);
+			double spawnX = player1.y + (Math.random() * 400 - 200);
 			
+			//boundaries for the bullets to spawn on the players scree.
+			spawnX = Math.max(50, Math.min(750, spawnX));
+			spawnY = Math.max(50, Math.min(550, spawnY));
+
 			if (chance < 0.3) {
 				spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords
 			} 
@@ -120,5 +140,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		repaint();
+	}
+
+	public void FreezeBullets() {
+		this.isTimeStopped = true;
+		this.freezeTimer = 333;
 	}
 }

@@ -21,7 +21,7 @@ public class Projectile extends Entity {
 	}
 
 	public void update() {
-		if (!active) return;
+		if (!active || isTimeStopped) return;
 		
 		//change the angle slightly  every frame
 		angle += rotationSpeed;
