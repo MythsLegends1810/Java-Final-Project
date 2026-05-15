@@ -131,6 +131,14 @@ public class GameServer {
 
                 // Continuously listen for messages
                 while ((message = input.readLine()) != null) {
+					
+
+				 if (message.startsWith("POS ")) { // If the message starts with POS, it means this is a player position update, not a chat message
+				String positionMessage = "POS " + playerName + " " + message.substring(4); // Add the player's name to the position update so other clients know who moved
+				server.broadcast(positionMessage, this); // Send the position update to every other connected client except the sender
+					}
+
+				 else {
 
                     // Add username to message
                     String fullMessage =
@@ -141,7 +149,8 @@ public class GameServer {
 
                     // Send message to all players
                     server.broadcast(fullMessage, this);
-                }
+					}
+				 }
 
             } catch (IOException e) {
 

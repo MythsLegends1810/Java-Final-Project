@@ -34,6 +34,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		this.setFocusable(true);
 		this.addKeyListener(this);
 
+		this.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				requestFocusInWindow();
+			}
+		}
+		);
+
 		Timer timer = new Timer(15, this);
 		timer.start();
 	}
@@ -59,6 +66,23 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Draws the player
 		g2d.setColor(Color.CYAN);
 		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
+
+		// Draw all active bullets 
+		for (Projectile p : bullets) {
+			p.draw(g);
+		}
+
+		g2d.setColor(Color.ORANGE);
+
+		for (String name : otherPlayers.keySet()) {
+			double[] position = otherPlayers.get(name);
+
+			int x = (int) position[0];
+			int y = (int) position[1];
+
+			g2d.fillRect(x, y, 40, 40);
+			g2d.drawString(name, x, y - 5);
+		}
 	}
 
 	public void keyPressed(KeyEvent key) {
@@ -102,13 +126,22 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
-		player1.y += player1.vy;
+		player1.y += player1.vy;			
+
 
 		// Keep player on screen within the boundaries
 		if (player1.x < 0) player1.x = 0;
 		if (player1.x > 760) player1.x = 760;
 		if (player1.y < 0) player1.y = 0;
 		if (player1.y > 560) player1.y = 560;
+		
+
+			
+		if (client != null) { // Make sure the client exists before trying to send position
+
+		client.sendPosition(player1.x, player1.y); // Send this player's current position to the server
+			}
+
 
 		// Tell java to redraw the screen
 		repaint();
@@ -119,23 +152,24 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			double chance = Math.random();
 
 			//This is the math for spawning the bullets near the player but not ontop of them
-			double spawnY = player1.x + (Math.random() * 400 - 200);
-			double spawnX = player1.y + (Math.random() * 400 - 200);
+			double spawnX = player1.x + (Math.random() * 400 - 200);
+			double spawnY = player1.y + (Math.random() * 400 - 200);
 			
 			//boundaries for the bullets to spawn on the players scree.
 			spawnX = Math.max(50, Math.min(750, spawnX));
 			spawnY = Math.max(50, Math.min(550, spawnY));
 
 			if (chance < 0.3) {
-				spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
+				spawner.spawnVortex(spawnX, spawnY, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
 			} 
 			else if (chance < 0.6) {
-				spawner.spawnRing(player1.x, player1.y, bullets); //TEMP COMMENTED
+				spawner.spawnRing(spawnX, spawnY, bullets); //TEMP COMMENTED
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
 		
 		//collision loop below:
+	if(!isTimeStopped) {
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
 			p.update(isTimeStopped);
@@ -149,6 +183,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 				bullets.remove(i);
 			}
 		}
+	}
 		repaint();
 	}
 

@@ -5,13 +5,15 @@ import java.net.*;
 
 //class for client
 public class GameClient {
-	
+
 	// IP addy/ host name
 	private String host;
 
 	private int port; //port number
 
 	private String playerName;
+
+	private Game game; // stores Game object so GameClient can update otyher players when position message arrives
 
 	private Socket socket;
 
@@ -32,21 +34,21 @@ public class GameClient {
 
 	public void start() {
 		try {
-			
+
 			socket = new Socket(host, port); //connect to server 
 
 			serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reads messages from server...holy crap this is confusing I hate java
 
 
 			//PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true); // sends a message to server 
-			
+
 			serverOutput = new PrintWriter(socket.getOutputStream(), true);
 
 			// send the player name immediately so the first chat mesage does not become the name i think
 			serverOutput.println(playerName);
 
-		//	BufferedReader keyboardInput = new BufferedReader(new InputStreamReader(System.in)); // reads input from a useer
-			
+			//	BufferedReader keyboardInput = new BufferedReader(new InputStreamReader(System.in)); // reads input from a useer
+
 
 			//bro wtf even is this bruh...sperate thread to constantly recieve new messages 
 			Thread receiveThread = new Thread(() -> {
@@ -56,113 +58,83 @@ public class GameClient {
 					while((serverMessage = serverInput.readLine()) != null) {
 						System.out.println(serverMessage);
 
-						if (chatScreen != null) {
-							chatScreen.addMessage(serverMessage);
+						if (serverMessage.startsWith("POS ")) { // If message starts with POS, it is a movement update
+
+							String[] parts = serverMessage.split(" "); // Split message into pieces: POS, playerName, x, y
+
+							if (parts.length == 4 && game != null) { // Make sure the message format is correct and Game exists
+
+								String otherPlayerName = parts[1]; // Get the player's name
+
+								double x = Double.parseDouble(parts[2]); // Convert x from String to double
+
+								double y = Double.parseDouble(parts[3]); // Convert y from String to double
+
+								game.updateOtherPlayer(otherPlayerName, x, y); // Update that player on the screen
+							}
+						}
+
+						else { // Otherwise, it is a normal chat message
+
+							if (chatScreen != null) { // Make sure chat screen exists
+
+								chatScreen.addMessage(serverMessage); // Add the message to the chat UI
+							}
 						}
 					}
 				}
-
-				catch (IOException e) {
-					System.out.println("Lost connection to server.");
-				}	
-
-				}
-			); //like WHATTTT BROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO I HATE JAVA 
-
-			receiveThread.start(); //self explanatory
-
-			//String userMessage; //capital S galore
 			
-			/*
-			while ((userMessage = keyboardInput.readLine()) != null) { //infinite send loop
-				
-				serverOutput.println(userMessage);
-			} // send typed message to server ^^
-			*/
-				/*
-			System.out.println();
-			System.out.println("GAME MODE");
-			System.out.println("Type / and press ENTER to open chat.");
 
-			String userInput;
-
-			while((userInput = keyboardInput.readLine()) != null) {
-				if (userInput.equals("/")) {
-					openChatMode(keyboardInput);
-				}
-				else {
-					System.out.println("You are in GAME MODE. TYPE \"/\" to open Chat.");
-				}
-			}
-
-		}*/
-	}
-		catch (IOException e) {
-			
-			//this is if connection fails (idek whats happenign anymroe bruh 
-			System.out.println("Client error: " + e.getMessage());
+			catch (IOException e) {
+				System.out.println("Lost connection to server.");
+			}	
 
 		}
+		); //like WHATTTT BROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO I HATE JAVA 
 
+		receiveThread.start(); //self explanatory
 
-		
+		//String userMessage; //capital S galore
 
 	}
-	/*
-	private void openChatMode(BufferedReader keyboardInput) throws IOException {
-    clearScreen();
+	catch (IOException e) {
 
-    System.out.println("====================================");
-    System.out.println("              CHAT MODE             ");
-    System.out.println("====================================");
-    System.out.println("Type your message and press ENTER.");
-    System.out.println("Type /back to return to game mode.");
-    System.out.println();
+		//this is if connection fails (idek whats happenign anymroe bruh 
+		System.out.println("Client error: " + e.getMessage());
 
-    String message;
+	}
+	}
 
-    while ((message = keyboardInput.readLine()) != null) {
 
-        if (message.equals("/back")) {
-            clearScreen();
-            System.out.println("GAME MODE");
-            System.out.println("Type / and press ENTER to open chat.");
-            return;
-        }
+	
 
-        if (!message.trim().equals("")) {
-            sendMessage(message);
-        }
-    }
+
+
+public void setChatScreen(ChatScreen chatScreen) {
+	this.chatScreen = chatScreen;
+}
+
+public void setGame(Game game) { //Lets Game.java give this GameClient access to the Game 
+	this.game = game; // Saves Game object into instance variable
+
+
+}
+
+public void sendPosition(double x, double y) {
+	if (serverOutput != null) {
+		serverOutput.println("POS " + x + " " + y);
+	}
 }
 
 
 
 
 
-*/
 
-	public void setChatScreen(ChatScreen chatScreen) {
-		this.chatScreen = chatScreen;
-	}
+public void sendMessage(String message) {
+	if(serverOutput != null) {
 
-
-
-
-
-
-	public void sendMessage(String message) {
-		if(serverOutput != null) {
-			
-			serverOutput.println(message);
+		serverOutput.println(message);
 		}
 	}
-}
-/*
-	private void clearScreen() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
-}
-
-}
-*/
+	}

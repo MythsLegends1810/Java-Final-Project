@@ -19,6 +19,9 @@ public class Player extends Entity {
 		this.maxHp = hp;
 		this.shield = 0;
 		this.movementSpeed = speed;
+
+		this.width = 40;
+		this.height = 40;
 	}
 
 	//dx and dy are the direction values (-1, 0, or 1) from keyboard input
