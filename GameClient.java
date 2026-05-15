@@ -62,7 +62,7 @@ public class GameClient {
 
 							String[] parts = serverMessage.split(" "); // Split message into pieces: POS, playerName, x, y
 
-							if (parts.length == 4 && game != null) { // Make sure the message format is correct and Game exists
+							if (parts.length == 8 && game != null) { // Make sure the message format is correct and Game exists
 
 								String otherPlayerName = parts[1]; // Get the player's name
 
@@ -70,7 +70,15 @@ public class GameClient {
 
 								double y = Double.parseDouble(parts[3]); // Convert y from String to double
 
-								game.updateOtherPlayer(otherPlayerName, x, y); // Update that player on the screen        ADAM FIX THIS
+								String type = parts[4];
+
+								int hp = Integer.parseInt(parts[5]);
+
+								int maxHp = Integer.parseInt (parts[6]);
+
+								int shield = Integer.parseInt (parts[7]);
+
+								game.updateOtherPlayer(otherPlayerName, x, y, type, hp, maxHp, shield); // Update that player on the screen        ADAM FIX THIS
 							}
 						}
 
@@ -121,8 +129,10 @@ public void setGame(Game game) { //Lets Game.java give this GameClient access to
 }
 
 public void sendPosition(double x, double y) {
-	if (serverOutput != null) {
-		serverOutput.println("POS " + x + " " + y);
+	if (serverOutput != null && game != null && game.player1 != null) {
+		Player p = game.player1;
+		//Pack all stats
+		serverOutput.println("POS " + playerName + " " + x + " " + y + " " + p.type + " " + p.hp + " " + p.maxHp + " " + p.shield);
 	}
 }
 

@@ -11,6 +11,7 @@ public class Player extends Entity {
 	public int shield;
 	public double movementSpeed;
 	public boolean Hakari = false;
+	public String type = "Default";
 
 
 	public Player(double x, double y, int hp, double speed) {
@@ -105,6 +106,7 @@ class Assassin extends Player { //Faster walkspeed but lower hp
 	private Image sprite; //stores the image here
 	public Assassin(double x_pos, double y_pos) { //Position here cause idk if we are going to have a fixed spawn point, can be removed later; just take out x_pos and y_pos  
 		super(x_pos, y_pos, 70, 12.6);
+		this.type = "Assassin";
 		/*this.hp = 70;
 		  this.movementSpeed = 12.6;
 		  this.maxHp = 70;*/
@@ -130,6 +132,7 @@ class Tank extends Player {
 		super(x_pos, y_pos, 200, 5.0);
 		this.shield = 100;
 		this.maxHp = 200;
+		this.type = "Tank";
 		/*this.hp = 200;
 		  this.maxHP = 200;
 		  this.movementSpeed = 5.0*/;
@@ -153,6 +156,7 @@ class Tank extends Player {
 			super(x_pos, y_pos, 120, 10.0);
 			this.shield = 10000;
 			this.maxHp = 120;
+			this.type = "Gojo";
 			/*	this.hp = 120;
 				this.maxHP = 120;
 				this.movementSpeed = 10.0;*/
@@ -184,6 +188,7 @@ class Tank extends Player {
 		public Gambler(double x_pos, double y_pos) { 
 			super(x_pos, y_pos, 120, 10.0);
 			this.shield = 30;
+			this.type = "Gambler";
 			this.sprite3 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
 		}
 		@Override 

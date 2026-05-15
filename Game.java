@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
-	private Player player1; 
+	public Player player1; 
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
@@ -25,9 +25,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private int freezeTimer = 0;
 	private boolean isTimeStopped = false;
 	private boolean isGameOver = false;
+	private Image gojoImg = Toolkit.getDefaultToolkit().getImage("Satoru.png");
+	private Image tankImg = Toolkit.getDefaultToolkit().getImage("Escanor.png");
+	private Image assassinImg = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");
+	private Image gamblerImg = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
 	private Image profImage = Toolkit.getDefaultToolkit().getImage("'Death Screen Kerney Jumpscare.png'");
 
-	HashMap<String, double[]> otherPlayers = new HashMap<>();
+	HashMap<String, Object[]> otherPlayers = new HashMap<>();
 
 	public Game(GameClient client) {
 		this.client = client;
@@ -111,13 +115,41 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		g2d.setColor(Color.ORANGE);
 
 		for (String name : otherPlayers.keySet()) {
-			double[] position = otherPlayers.get(name);
+			Object[] data = otherPlayers.get(name);
 
-			int x = (int) position[0];
-			int y = (int) position[1];
+			int x = (int)((double)data[0]);
+			int y = (int)((double)data[1]);
+			String type = (String)data[2];
+			int hp = (int)data[3];
+			int maxHp = (int)data[4];
+			int shield = (int)data[5];
 
-			g2d.fillRect(x, y, 40, 40);
-			g2d.drawString(name, x, y - 5);
+			//g2d.fillRect(x, y, 40, 40);
+			//g2d.drawString(name, x, y - 5);
+
+			Image img = null;
+			if (type.equals("Gojo")) img = gojoImg;
+			else if (type.equals("Tank")) img = tankImg;
+			else if (type.equals("Assassin")) img = assassinImg;
+			else img = gamblerImg;
+
+			if (img != null) {
+				g2d.drawImage(img, x, y, 40, 40, null);
+			}
+			else {
+				g2d.setColor(Color.YELLOW);
+				g2d.fillRect(x, y, 40, 40);
+			}
+
+			g2d.setColor(Color.RED);
+			g2d.fillRect(x, y - 15, 40, 5);
+
+			g2d.setColor(Color.GREEN);
+			int healthWidth = (int)(((double)hp / maxHp) * 40);
+			g2d.fillRect(x, y - 15, healthWidth, 5);
+
+			g2d.setColor(Color.WHITE);
+			g2d.drawString(name, x, y - 20);
 		}
 	}
 
@@ -231,8 +263,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		this.freezeTimer = 333;
 	}
 
-	public void updateOtherPlayer(String playerName, double x, double y) {
-		otherPlayers.put(playerName, new double[]{x, y});
+	public void updateOtherPlayer(String playerName, double x, double y, String type, int hp, int maxHp, int shield) {
+		otherPlayers.put(playerName, new Object[]{x, y, type, hp, maxHp, shield});
 		repaint();
 	}
 }
