@@ -27,6 +27,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private int spawnTimer = 0;
 	private int freezeTimer = 0;
 	private boolean isTimeStopped = false;
+	Player p;
 
 
 	public Game(GameClient client) {
@@ -40,11 +41,71 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		this.setFocusable(true);
 		this.addKeyListener(this);
 
-		Timer timer = new Timer(15, this);
-		timer.start();
+		// timer = new Timer(15, this);
+		// timer.start();
 	}
 
-	@Override public void paintComponent(Graphics g) {
+	public void PlayerGacha() { 
+		int fate = (int)(Math.random() * 20) + 1;
+
+		if (fate == 20) { 
+		p = new Gojo(300, 300);
+		}
+		else if ((fate < 20) && (fate > 16)) { 
+		p = new Gambler(300, 300);
+		}
+		else if ((fate < 16) && (fate < 8)) { 
+		p = new Tank(300, 300); 
+		}
+		else { 
+		p = new Assassin(300, 300);
+	}
+}
+	@Override
+	public void paintComponent(Graphics g) {
+	super.paintComponent(g);
+	Graphics2D g2d = (Graphics2D) g;
+
+	g2d.setColor(Color.DARK_GRAY);
+	g2d.fillRect(0, 0, getWidth(), getHeight());
+	int fate = (int)(Math.random() * 20) + 1;
+	if (fate == 20) { 
+		//p = new Gojo(300, 300);
+		Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png"); 
+		g2d.scale(0.9,0.9);
+        g2d.drawImage(img1, 100, 100, 100, 100, null);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		}
+	else if ((fate < 20) && (fate > 16)) { 
+		//p = new Gambler(300, 300);
+        Image img2 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
+
+        g2d.scale(0.9,0.9);
+        g2d.drawImage(img2, 100, 100, 100, 100, null);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		}
+	else if ((fate < 16) && (fate < 8)) { 
+		//p = new Tank(300, 300); 
+        Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
+
+        g2d.scale(0.9,0.9);
+        g2d.drawImage(img2, 100, 100, 100, 100, null);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		}
+	else { 
+		//p = new Assassin(300, 300);
+        Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");   //Imma try to use an actual jpg here this gunna take some time
+        g2d.scale(0.9,0.9);
+        g2d.drawImage(img1, 100, 100, 100, 100, null);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	}
+	if (p != null) { 
+		p.draw(g2d);	
+	}
+}
+/*	@Override 
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -60,6 +121,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		// Draws the player
 		g2d.setColor(Color.CYAN);
+		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);*/
+	/*if (p != null) { 
+		p.draw(g2d);*/
+		
+	
+
+
 		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
 
 		g2d.setColor(Color.ORANGE);
