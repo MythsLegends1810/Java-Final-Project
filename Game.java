@@ -134,7 +134,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		//collision loop below:
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
-			p.update();
+			p.update(isTimeStopped);
 
 			//This is the player collision
 			if (p.active && player1.active && p.collidesWith(player1)) {
