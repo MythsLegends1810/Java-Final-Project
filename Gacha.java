@@ -1,11 +1,18 @@
 // Will have the logic for our gacha system just in case
+import java.util.*;
+import java.io.*;
+import java.net.*;
+import java.awt.*;
 
-class Gacha { //Parent/Super class
+
+class Gacha extends Entity { //Parent/Super class
 	protected int spawn_rate;
 	protected String Buff_name;
 	protected String Rarity;
+	protected Image sprite = Toolkit.getDefaultToolkit().getImage("Lootbox.png");
 
 	public Gacha(int spawn_rate, String Buff_name, String Rarity) { //Java default constructor
+		super(0, 0, 10, 10, false);
 		this.spawn_rate = spawn_rate;
 		this.Buff_name = Buff_name;
 		this.Rarity = Rarity;
@@ -24,6 +31,21 @@ class Gacha { //Parent/Super class
 	}		
 	public void transfer(Player buff) { //Java giving me a migraine I pray this works 
 		//logic lol
+	}
+	public void position() { 
+		if (x < -50 || x > 850 || y < -50 || y > 650) { //bounds
+			this.active = false;
+		}
+	}
+	public void draw(Graphics g, int x, int y) { 
+		if (!active) return;
+
+		g.setColor(Color.YELLOW);
+		g.fillRect((int)this.x, (int)this.y, 35, 35);	
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		g2d.drawImage(sprite, (int)x, (int)y, 35, 35, null);  
 	}
 }
 
@@ -90,7 +112,7 @@ class Speed extends Gacha { //Speed Boost powerup follows same logic, all three 
 	}
 }
 
-class Jackpot extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
+/*class Jackpot extends Gacha { //Freeze stops all the particles but the player can move: Im thinking we can do multithreading to run teh player and particles separately:? 
 	private int Glorious;
 	public Jackpot(int Godlike) {
 		super(20, "Time Stop", "Legendary"); 
@@ -104,7 +126,7 @@ class Jackpot extends Gacha { //Freeze stops all the particles but the player ca
 	public void printBuffs() { 
 		System.out.println("You have recievied" + Buff_name);
 	}
-}
+}*/
 
 class Overflow extends Gacha { 
 	private int word;
