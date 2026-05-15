@@ -207,7 +207,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 			//This is the player collision
 			if (p.active && player1.active && p.collidesWith(player1)) {
-				player1.takeDamage(10); // player takes 10 damage change depending on what we need to balance.
+				player1.takeDamage(20); // player takes 10 damage change depending on what we need to balance.
 				p.active = false;
 			}
 			if (!p.active) {
@@ -228,13 +228,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 }
 
 
-	}
-	public void spawnLootbox() { 
-	int dropRate = (int) (Math.random() * 100) + 1;
-	
-	if (dropRate >= 80) { 
-		 
-		}	 
 	}
 
 
