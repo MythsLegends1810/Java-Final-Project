@@ -26,8 +26,8 @@ public class Projectile extends Entity {
 		this.height = 10;
 	}
 
-	public void update() {
-	//	if (!active || isTimeStopped) return;        THIS CODE IS COMMENTED OUT 
+	public void update(boolean isTimeStopped) {
+		if (!active || isTimeStopped) return;
 		
 		//change the angle slightly  every frame
 		angle += rotationSpeed;
