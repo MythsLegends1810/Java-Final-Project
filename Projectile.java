@@ -21,6 +21,9 @@ public class Projectile extends Entity {
 		this.speed = speed;
 		this.rotationSpeed = rotationSpeed; // This needs to be set to 1 or 2 for a curve but test others depedning on the difficulty
 		this.active = true;
+
+		this.width = 10;
+		this.height = 10;
 	}
 
 	public void update(boolean isTimeStopped) {
