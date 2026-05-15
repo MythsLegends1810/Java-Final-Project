@@ -169,7 +169,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
 		
 		//collision loop below:
-	if(!isTimeStopped) {
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
 			p.update(isTimeStopped);
@@ -183,7 +182,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 				bullets.remove(i);
 			}
 		}
-	}
 		repaint();
 	}
 
