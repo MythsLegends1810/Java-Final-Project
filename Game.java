@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
 import java.util.List;
+import java.util.HashMap;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
@@ -24,6 +25,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private int freezeTimer = 0;
 	private boolean isTimeStopped = false;
 
+	HashMap<String, double[]> otherPlayers = new HashMap<>();
 
 	public Game(GameClient client) {
 		this.client = client;
@@ -36,10 +38,24 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				Game.this.requestFocus();
 				requestFocusInWindow();
 			}
+		});
+		// gacha roll mechanic, to see which character type you get
+		int fate = (int) (Math.random() * 20) +1;
+		if (fate == 20) {
+			player1 = new Gojo(300, 300);
+		} 
+		else if (fate >= 17) {
+			player1 = new Gambler(300, 300);
 		}
-		);
+		else if (fate >= 8) {
+			player1 = new Tank(300, 300);
+		}
+		else {
+			player1 = new Assassin(300, 300);
+		}
 
 		Timer timer = new Timer(15, this);
 		timer.start();
@@ -57,15 +73,14 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Turns on Anti-Aliasing
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		// Draws a dark background 
-		g2d.setColor(Color.DARK_GRAY);
+		g2d.setColor(Color.GRAY);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).draw(g);
 		}
 		// Draws the player
-		g2d.setColor(Color.CYAN);
-		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
+		player1.draw(g2d);
 
 		// Draw all active bullets 
 		for (Projectile p : bullets) {
@@ -101,10 +116,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		}
 
 		//logic for checking what key was pressed 
-		if (key.getKeyCode() == KeyEvent.VK_W) player1.vy -= 5;
-		if (key.getKeyCode() == KeyEvent.VK_S) player1.vy += 5;
-		if (key.getKeyCode() == KeyEvent.VK_A) player1.vx -= 5;
-		if (key.getKeyCode() == KeyEvent.VK_D) player1.vx += 5;
+		if (key.getKeyCode() == KeyEvent.VK_W) player1.vy -= 4;
+		if (key.getKeyCode() == KeyEvent.VK_S) player1.vy += 4;
+		if (key.getKeyCode() == KeyEvent.VK_A) player1.vx -= 4;
+		if (key.getKeyCode() == KeyEvent.VK_D) player1.vx += 4;
 		repaint(); 
 	}
 
@@ -169,7 +184,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
 		
 		//collision loop below:
-	if(!isTimeStopped) {
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
 			p.update(isTimeStopped);
@@ -183,12 +197,16 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 				bullets.remove(i);
 			}
 		}
-	}
 		repaint();
 	}
 
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
 		this.freezeTimer = 333;
+	}
+
+	public void updateOtherPlayer(String playerName, double x, double y) {
+		otherPlayers.put(playerName, new double[]{x, y});
+		repaint();
 	}
 }

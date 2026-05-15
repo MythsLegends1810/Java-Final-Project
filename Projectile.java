@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
+import java.awt.Color;
 
 public class Projectile extends Entity {
 	public double angle;
@@ -11,7 +12,7 @@ public class Projectile extends Entity {
 	public double rotationSpeed; //This will be how much the bullets turn every frame
 
 	public Projectile() {
-		super(0, 0, 0, 0, false);
+		super(0, 0, 10, 10, false);
 	}
 
 	public void spawn(double x, double y, double angle, double speed, double rotationSpeed) {
@@ -50,8 +51,18 @@ public class Projectile extends Entity {
 	@Override
 	public void draw(Graphics g) {
 		if (!active) return;
-		g.setColor(Color.RED);
-		g.fillOval((int)x, (int)y, 10, 10);
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		//bullet Color
+		g2d.setColor(Color.RED);
+
+		//Draw the bullet center
+		g2d.fillOval((int)x - width/2, (int)y - height/2, width, height);
+
+		//outline of the dot
+		g2d.setColor(Color.WHITE);
+		g2d.drawOval((int)x - width/2, (int)y - height/2, width, height);
 	}
 }
 
