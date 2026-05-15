@@ -86,9 +86,12 @@ class Assassin extends Player { //Faster walkspeed but lower hp
 	}
 	@Override
 	public void draw(Graphics g) { 
+		super.draw(g);
 		Graphics2D g2d = (Graphics2D) g;
-		//Imma try to use an actual jpg here this gunna take some time
-
+		Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");	//Imma try to use an actual jpg here this gunna take some time
+		g2d.scale(0.9,0.9);
+		g2d.drawImage(img1, 100, 100, 100, 100, null);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 }
 
@@ -103,7 +106,13 @@ class Tank extends Player {
 	}
 	@Override
 	public void draw(Graphics g) { 
-		Graphics g2d = (Graphics2D) g; //Need to work on this later, if all fails just draw a square prob
+		super.draw(g);
+		Graphics2D g2d = (Graphics2D) g; //Need to work on this later, if all fails just draw a square prob
+		Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
+		
+		g2d.scale(0.9,0.9);
+		g2d.drawImage(img2, 100, 100, 100, 100, null);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//Same thing needs an image to be applied
 	}
 }
@@ -127,7 +136,14 @@ class Tank extends Player {
 		}
 		@Override 
 		public void draw(Graphics g) { 
-			Graphics g2d = (Graphics2D) g;
+		super.draw(g);
+			Graphics2D g2d = (Graphics2D) g;
+			Image img3 = Toolkit.getDefaultToolkit().getImage("Satoru.png");
+			
+			g2d.scale(0.9,0.9);
+			g2d.drawImage(img3, 100, 100, 100, 100, null);
+	    	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 			//Needs the image and the logc to print it to the screen
 		}
 
@@ -141,14 +157,20 @@ class Tank extends Player {
 		@Override 
 		public void takeDamage(int amount) { 
 			if (Math.random() < 0.3) { 
-				System.out.println("Can't touch this");
+				System.out.println("The essence of gambling is a meaningless death");
 				return; //Ensures the damage is not applied
 			} 
 		super.takeDamage(amount);	
 		}
 		@Override 
 		public void draw(Graphics g) { 
-			Graphics g2d = (Graphics2D) g;
+			super.draw(g);
+			Graphics2D g2d = (Graphics2D) g;
+			Image img4 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
+
+			g2d.scale(0.9,0.9);
+            g2d.drawImage(img4, 100, 100, 100, 100, null);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			//Needs the image and the logc to print it to the screen
 		}
 	}
