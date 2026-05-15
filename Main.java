@@ -47,7 +47,7 @@ public static void main(String[] args) {
 				frame.pack();  //Adjusts window size to fit the panel
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
-
+				gamePanel.setFocusable(true);
 				gamePanel.requestFocusInWindow();
 			}
 		});

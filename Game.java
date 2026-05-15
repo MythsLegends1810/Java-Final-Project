@@ -43,14 +43,14 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			}
 		});
 		// gacha roll mechanic, to see which character type you get
-		int fate = (int) (Math.random() * 20) +1;
-		if (fate == 20) {
+		int fate = (int) (Math.random() * 100) +1;
+		if (fate >= 97) {
 			player1 = new Gojo(300, 300);
 		} 
-		else if (fate >= 17) {
+		else if (fate >= 87) {
 			player1 = new Gambler(300, 300);
 		}
-		else if (fate >= 8) {
+		else if (fate >= 35) {
 			player1 = new Tank(300, 300);
 		}
 		else {
