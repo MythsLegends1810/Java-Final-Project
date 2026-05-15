@@ -11,11 +11,20 @@ public class GameClient {
 
 	private int port; //port number
 
+	private String playerName;
+
+	private Socket socket;
+
+	private BufferedReader serverInput;
+
 	private PrintWriter serverOutput; //lets other methods send mesages to the server
 
-	public GameClient(String host, int port) {
+	private ChatScreen chatScreen;
+
+	public GameClient(String host, int port, String playerName) {
 		this.host = host;
 		this.port = port;
+		this.playerName = playerName;
 	}
 
 
@@ -24,16 +33,19 @@ public class GameClient {
 	public void start() {
 		try {
 			
-			Socket socket = new Socket(host, port); //connect to server 
+			socket = new Socket(host, port); //connect to server 
 
-			BufferedReader serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reads messages from server...holy crap this is confusing I hate java
+			serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream())); // reads messages from server...holy crap this is confusing I hate java
 
 
 			//PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true); // sends a message to server 
 			
 			serverOutput = new PrintWriter(socket.getOutputStream(), true);
 
-			BufferedReader keyboardInput = new BufferedReader(new InputStreamReader(System.in)); // reads input from a useer
+			// send the player name immediately so the first chat mesage does not become the name i think
+			serverOutput.println(playerName);
+
+		//	BufferedReader keyboardInput = new BufferedReader(new InputStreamReader(System.in)); // reads input from a useer
 			
 
 			//bro wtf even is this bruh...sperate thread to constantly recieve new messages 
@@ -43,6 +55,10 @@ public class GameClient {
 
 					while((serverMessage = serverInput.readLine()) != null) {
 						System.out.println(serverMessage);
+
+						if (chatScreen != null) {
+							chatScreen.addMessage(serverMessage);
+						}
 					}
 				}
 
@@ -55,14 +71,32 @@ public class GameClient {
 
 			receiveThread.start(); //self explanatory
 
-			String userMessage; //capital S galore
-
+			//String userMessage; //capital S galore
+			
+			/*
 			while ((userMessage = keyboardInput.readLine()) != null) { //infinite send loop
 				
 				serverOutput.println(userMessage);
 			} // send typed message to server ^^
+			*/
+				/*
+			System.out.println();
+			System.out.println("GAME MODE");
+			System.out.println("Type / and press ENTER to open chat.");
 
-		}
+			String userInput;
+
+			while((userInput = keyboardInput.readLine()) != null) {
+				if (userInput.equals("/")) {
+					openChatMode(keyboardInput);
+				}
+				else {
+					System.out.println("You are in GAME MODE. TYPE \"/\" to open Chat.");
+				}
+			}
+
+		}*/
+	}
 		catch (IOException e) {
 			
 			//this is if connection fails (idek whats happenign anymroe bruh 
@@ -74,6 +108,48 @@ public class GameClient {
 		
 
 	}
+	/*
+	private void openChatMode(BufferedReader keyboardInput) throws IOException {
+    clearScreen();
+
+    System.out.println("====================================");
+    System.out.println("              CHAT MODE             ");
+    System.out.println("====================================");
+    System.out.println("Type your message and press ENTER.");
+    System.out.println("Type /back to return to game mode.");
+    System.out.println();
+
+    String message;
+
+    while ((message = keyboardInput.readLine()) != null) {
+
+        if (message.equals("/back")) {
+            clearScreen();
+            System.out.println("GAME MODE");
+            System.out.println("Type / and press ENTER to open chat.");
+            return;
+        }
+
+        if (!message.trim().equals("")) {
+            sendMessage(message);
+        }
+    }
+}
+
+
+
+
+
+*/
+
+	public void setChatScreen(ChatScreen chatScreen) {
+		this.chatScreen = chatScreen;
+	}
+
+
+
+
+
 
 	public void sendMessage(String message) {
 		if(serverOutput != null) {
@@ -81,5 +157,12 @@ public class GameClient {
 			serverOutput.println(message);
 		}
 	}
+}
+/*
+	private void clearScreen() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+}
 
 }
+*/

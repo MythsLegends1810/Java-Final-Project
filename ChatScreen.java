@@ -76,6 +76,7 @@ public class ChatScreen {
 		//now this is for normal typing 
 
 		else {
+			if (!Character.isISOControl(keyChar) && keyChar != KeyEvent.CHAR_UNDEFINED)
 			currentMessage += keyChar;
 		}
 
@@ -88,9 +89,23 @@ public class ChatScreen {
 		g.fillRect(0, 0, width, height); //fillRect is a method used ti draw a solid filled in rectangle on a graphical component, via wikapedia
 		
 		g.setColor(Color.WHITE);
-		g.drawString("CHAT", 20, 30); // CHAT title at the top (I tHink)
+		
+		g.setFont(new Font("Serif", Font.BOLD, 40)); //Make Title chat BIGGGFTGGER
 
-		int y = 60;
+		//u can remove this later but this measures how wide the word chat is
+		FontMetrics fm = g.getFontMetrics();
+
+		// Center the "CHAT" title in the middle
+		int titleWidth = fm.stringWidth("CHAT");
+		int titleX = (width - titleWidth) / 2;
+
+		g.drawString("CHAT", titleX, 50);
+
+		g.setFont(new Font("Arial", Font.PLAIN, 14));
+
+		//g.drawString("CHAT", 20, 30); // CHAT title at the top (I tHink)
+		
+		int y = 90;
 
 		for (int i = 0; i < messages.size(); i++) { //loops thru every message in ArrayList
 		

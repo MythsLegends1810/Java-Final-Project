@@ -14,16 +14,22 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	Player player1 = new Player(300, 300, 0, 0); 
 	
 	private ChatScreen chatScreen = new ChatScreen();
+	private GameClient client;
 
-	private BulletSpawner spawner = new BulletSpawner();
+	//private BulletSpawner spawner = new BulletSpawner(); commented out temporarily
 	
 	private int spawnTimer = 0;
 
-	public Game() {
+	public Game(GameClient client) {
+		this.client = client;
+		this.client.setChatScreen(chatScreen);
+
+
 		this.setPreferredSize(new Dimension(800, 600));
-		this.setBackground(Color.BLACK);
+		this.setBackground(Color.GREEN);
 		this.setFocusable(true);
 		this.addKeyListener(this);
+
 		Timer timer = new Timer(15, this);
 		timer.start();
 	}
@@ -51,7 +57,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 		//adam
 		if (chatScreen.isOpen()) {
-			chatScreen.handleKey(key, null);
+			chatScreen.handleKey(key, client);
 			repaint();
 			return;
 		}
@@ -97,10 +103,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			double chance = Math.random();
 			
 			if (chance < 0.3) {
-				spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords
+			//	spawner.spawnVortex(400, 300, bullets); //Parameter 1 & 2 should be center cords//TEMP COMMENTED 
 			} 
 			else if (chance < 0.6) {
-				spawner.spawnRing(player1.x, player1.y, bullets);
+			//	spawner.spawnRing(player1.x, player1.y, bullets); //TEMP COMMENTED
 			}
 			spawnTimer = 0;
 		} //This is the end of the logic for bullets there will be more else if statements for other patterns
