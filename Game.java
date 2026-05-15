@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
-	private Player player1; 
+	private Player player1 = new Player(100 + Math.random() * 200, 100 + Math.random() * 400, 0, 0); 
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
