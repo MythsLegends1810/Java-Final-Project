@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
 import java.util.List;
-import java.util.HashMap;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
@@ -18,94 +17,28 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
 
-	private HashMap<String, double[]> otherPlayers = new HashMap<>();
-
-
 	private BulletSpawns spawner = new BulletSpawns();
 	private ArrayList<Projectile> bullets = new ArrayList<>();
 
 	private int spawnTimer = 0;
 	private int freezeTimer = 0;
 	private boolean isTimeStopped = false;
-	Player p;
 
 
 	public Game(GameClient client) {
 		this.client = client;
 		this.client.setChatScreen(chatScreen);
 
-		this.client.setGame(this);
-
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.GREEN);
 		this.setFocusable(true);
 		this.addKeyListener(this);
 
-		// timer = new Timer(15, this);
-		// timer.start();
+		Timer timer = new Timer(15, this);
+		timer.start();
 	}
 
-	public void PlayerGacha() { 
-		int fate = (int)(Math.random() * 20) + 1;
-
-		if (fate == 20) { 
-		p = new Gojo(300, 300);
-		}
-		else if ((fate < 20) && (fate > 16)) { 
-		p = new Gambler(300, 300);
-		}
-		else if ((fate < 16) && (fate < 8)) { 
-		p = new Tank(300, 300); 
-		}
-		else { 
-		p = new Assassin(300, 300);
-	}
-}
-	@Override
-	public void paintComponent(Graphics g) {
-	super.paintComponent(g);
-	Graphics2D g2d = (Graphics2D) g;
-
-	g2d.setColor(Color.DARK_GRAY);
-	g2d.fillRect(0, 0, getWidth(), getHeight());
-	int fate = (int)(Math.random() * 20) + 1;
-	if (fate == 20) { 
-		//p = new Gojo(300, 300);
-		Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png"); 
-		g2d.scale(0.9,0.9);
-        g2d.drawImage(img1, 100, 100, 100, 100, null);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-		}
-	else if ((fate < 20) && (fate > 16)) { 
-		//p = new Gambler(300, 300);
-        Image img2 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
-
-        g2d.scale(0.9,0.9);
-        g2d.drawImage(img2, 100, 100, 100, 100, null);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		}
-	else if ((fate < 16) && (fate < 8)) { 
-		//p = new Tank(300, 300); 
-        Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
-
-        g2d.scale(0.9,0.9);
-        g2d.drawImage(img2, 100, 100, 100, 100, null);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		}
-	else { 
-		//p = new Assassin(300, 300);
-        Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");   //Imma try to use an actual jpg here this gunna take some time
-        g2d.scale(0.9,0.9);
-        g2d.drawImage(img1, 100, 100, 100, 100, null);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	}
-	if (p != null) { 
-		p.draw(g2d);	
-	}
-}
-/*	@Override 
-	public void paintComponent(Graphics g) {
+	@Override public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -119,28 +52,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Draws a dark background 
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
+
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).draw(g);
+		}
 		// Draws the player
 		g2d.setColor(Color.CYAN);
-		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);*/
-	/*if (p != null) { 
-		p.draw(g2d);*/
-		
-	
-
-
 		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
-
-		g2d.setColor(Color.ORANGE);
-
-		for (String name : otherPlayers.keySet()) {
-			double[] position = otherPlayers.get(name);
-
-			int x = (int) position[0];
-			int y = (int) position[1];
-
-			g2d.fillRect(x, y, 40, 40);
-			g2d.drawString(name, x, y - 5);
-		}
 	}
 
 	public void keyPressed(KeyEvent key) {
@@ -185,12 +103,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
 		player1.y += player1.vy;
-			
-		if (client != null) { // Make sure the client exists before trying to send position
-
-		client.sendPosition(player1.x, player1.y); // Send this player's current position to the server
-}
-
 
 		// Keep player on screen within the boundaries
 		if (player1.x < 0) player1.x = 0;
@@ -243,12 +155,5 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
 		this.freezeTimer = 333;
-	}
-
-
-
-	public void updateOtherPlayer(String playerName, double x, double y) {
-		otherPlayers.put(playerName, new double[] {x, y});
-		repaint();
 	}
 }
