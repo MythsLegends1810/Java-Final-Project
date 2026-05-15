@@ -24,12 +24,16 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	private int spawnTimer = 0;
 	private int freezeTimer = 0;
 	private boolean isTimeStopped = false;
+	private boolean isGameOver = false;
+	private Image profImage = Toolkit.getDefaultToolkit().getImage("'Death Screen Kerney Jumpscare.png'");
 
 	HashMap<String, double[]> otherPlayers = new HashMap<>();
 
 	public Game(GameClient client) {
 		this.client = client;
 		this.client.setChatScreen(chatScreen);
+
+		this.client.setGame(this);
 
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.GREEN);
@@ -64,6 +68,23 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	@Override public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+
+		if (isGameOver) {
+			//Draw background
+			g2d.setColor(Color.BLACK);
+			g2d.fillRect(0, 0, getWidth(), getHeight());
+
+			//Draw Professor Image in center
+			//Adjust width and height based on image size
+			g2d.drawImage(profImage, getWidth()/2 - 200, getHeight()/2 - 200, 400, 400, null);
+
+			// Add Game Over
+			g2d.setColor(Color.WHITE);
+			g2d.setFont(new Font("Comic Sans", Font.BOLD, 40));
+			g2d.drawString("GAME OVER", getWidth()/2 - 170, getHeight()/2 + 250);
+			return;
+		}
+
 
 		if (chatScreen.isOpen()) {
 			chatScreen.drawChat(g, getWidth(), getHeight());
@@ -197,6 +218,11 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 				bullets.remove(i);
 			}
 		}
+
+		if (player1.hp <= 0) {
+			isGameOver = true;
+		}
+
 		repaint();
 	}
 

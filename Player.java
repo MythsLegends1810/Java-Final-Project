@@ -119,7 +119,7 @@ class Assassin extends Player { //Faster walkspeed but lower hp
 		//to be caled down like 90% and shift to top-left
 		//Image img1 = Toolkit.getDefaultToolkit().getImage("koro_sensei.png");	//Imma try to use an actual jpg here this gunna take some time
 		//g2d.scale(0.9,0.9);
-		g2d.drawImage(sprite, (int)x, (int)y, 35, 35, null);
+		g2d.drawImage(sprite, (int)x, (int)y, 40, 40, null);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 }
@@ -141,7 +141,7 @@ class Tank extends Player {
 		Graphics2D g2d = (Graphics2D) g; //Need to work on this later, if all fails just draw a square prob
 		//Image img2 = Toolkit.getDefaultToolkit().getImage("Escanor.png");
 		//g2d.scale(0.9,0.9);
-		g2d.drawImage(sprite1, (int)x, (int)y, 35, 35, null);
+		g2d.drawImage(sprite1, (int)x, (int)y, 40, 40, null);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		//Same thing needs an image to be applied
 	}
@@ -172,7 +172,7 @@ class Tank extends Player {
 			Graphics2D g2d = (Graphics2D) g;
 			//Image img3 = Toolkit.getDefaultToolkit().getImage("Satoru.png");
 			//g2d.scale(0.9,0.9);
-			g2d.drawImage(sprite2, (int)x, (int)y, 35, 35, null);
+			g2d.drawImage(sprite2, (int)x, (int)y, 40, 40, null);
 	    	g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			//Needs the image and the logc to print it to the screen
 		}
@@ -200,7 +200,7 @@ class Tank extends Player {
 			Graphics2D g2d = (Graphics2D) g;
 			//Image img4 = Toolkit.getDefaultToolkit().getImage("Shigeru.png");
 			//g2d.scale(0.9,0.9);
-            g2d.drawImage(sprite3, (int)x, (int)y, 35, 35, null);
+            g2d.drawImage(sprite3, (int)x, (int)y, 40, 40, null);
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			//Needs the image and the logc to print it to the screen
 		}
