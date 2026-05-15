@@ -38,6 +38,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				Game.this.requestFocus();
 				requestFocusInWindow();
 			}
 		});
@@ -79,8 +80,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 			bullets.get(i).draw(g);
 		}
 		// Draws the player
-		g2d.setColor(Color.CYAN);
-		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
+		player1.draw(g2d);
 
 		// Draw all active bullets 
 		for (Projectile p : bullets) {
@@ -203,5 +203,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
 		this.freezeTimer = 333;
+	}
+
+	public void updateOtherPlayer(String playerName, double x, double y) {
+		otherPlayers.put(playerName, new double[]{x, y});
+		repaint();
 	}
 }
