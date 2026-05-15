@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
 import java.util.List;
-import java.util.HashMap;
 
 //extends JPanel enables the class to be essentially like drawing onto a canvas
 //implements KeyListener provides the ability to detect and respond to keyboard events
@@ -17,9 +16,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	
 	private ChatScreen chatScreen = new ChatScreen();
 	private GameClient client;
-
-	private HashMap<String, double[]> otherPlayers = new HashMap<>();
-
 
 	private BulletSpawns spawner = new BulletSpawns();
 	private ArrayList<Projectile> bullets = new ArrayList<>();
@@ -32,8 +28,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public Game(GameClient client) {
 		this.client = client;
 		this.client.setChatScreen(chatScreen);
-
-		this.client.setGame(this);
 
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setBackground(Color.GREEN);
@@ -65,6 +59,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 		// Draws a dark background 
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
+
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).draw(g);
+		}
 		// Draws the player
 		g2d.setColor(Color.CYAN);
 		g2d.fillRect((int)player1.x, (int)player1.y, 40, 40);
@@ -128,8 +126,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 
 		player1.x += player1.vx;     // Math for New Position = Old Position + Speed (moving the player)
-		player1.y += player1.vy;
-			
+		player1.y += player1.vy;			
 
 
 		// Keep player on screen within the boundaries
@@ -175,7 +172,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	if(!isTimeStopped) {
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			Projectile p = bullets.get(i);
-			p.update();
+			p.update(isTimeStopped);
 
 			//This is the player collision
 			if (p.active && player1.active && p.collidesWith(player1)) {
@@ -193,12 +190,5 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 	public void FreezeBullets() {
 		this.isTimeStopped = true;
 		this.freezeTimer = 333;
-	}
-
-
-
-	public void updateOtherPlayer(String playerName, double x, double y) {
-		otherPlayers.put(playerName, new double[] {x, y});
-		repaint();
 	}
 }
