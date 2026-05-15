@@ -1,6 +1,9 @@
 //Extension of Entity.java will contain the math and patterns for the attacks (example sin waves and stuff like that similar to Terrarias calamity fights
 //Think like Empress of light attacks etc
 import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.util.List;
 
 public class Projectile extends Entity {
 	public double angle;
@@ -21,7 +24,7 @@ public class Projectile extends Entity {
 	}
 
 	public void update() {
-		if (!active || isTimeStopped) return;
+	//	if (!active || isTimeStopped) return;        THIS CODE IS COMMENTED OUT 
 		
 		//change the angle slightly  every frame
 		angle += rotationSpeed;
@@ -37,7 +40,7 @@ public class Projectile extends Entity {
 
 		//out of bounds check
 		if (x < -50 || x > 850 || y < -50 || y > 650) {
-			this.active = false
+			this.active = false;
 	}
 }
 
