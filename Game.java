@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Game extends JPanel implements KeyListener, ActionListener {
 	//using donavon's class
-	private Player player1 = new Player(100 + Math.random() * 200, 100 + Math.random() * 400, 0, 0); 
+	public Player player1 = new Player(100 + Math.random() * 200, 100 + Math.random() * 400, 0, 0); 
 
 	private Gacha loot;
 	
@@ -260,7 +260,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
 			//This is the player collision
 			if (p.active && player1.active && p.collidesWith(player1)) {
-				player1.takeDamage(20); // player takes 10 damage change depending on what we need to balance.
+				player1.takeDamage(((int)Math.random()*70) + 20); // player takes 10 damage change depending on what we need to balance.
 				p.active = false;
 			}
 			if (!p.active) {
